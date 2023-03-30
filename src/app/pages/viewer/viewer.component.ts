@@ -19,6 +19,7 @@ export class ViewerComponent implements OnInit {
   public imageId: string = '';
   public imageNotFound: boolean = false;
   public zoom: number = 100;
+  public elementTarget: fabric.IText | undefined;
 
   ngOnInit(): void {
     this.createCanvas();
@@ -39,6 +40,9 @@ export class ViewerComponent implements OnInit {
         this.canvas.add(image);
       });
     });
+    document.addEventListener('keydown', e => {
+      e.key === 'Delete' && this.elementTarget && this.canvas.remove(this.elementTarget);
+    })
   }
 
   public setZoom(action: boolean) {
@@ -46,28 +50,30 @@ export class ViewerComponent implements OnInit {
     if (newZoom < 0) {
       return;
     }
-    if (newZoom > 100) {
-
-    }
     this.zoom = action ? this.zoom + 10 : this.zoom - 10;
     const zoom = this.canvas.getZoom();
     this.canvas.setZoom(action ? zoom * 1.1 : zoom / 1.1);
   }
 
-  addText(): void {
+  public addText(): void {
     const text = new fabric.Textbox('Add your text here', {
       left: 100,
       top: 100,
       width: 200,
       fontSize: 20,
       fontFamily: 'Arial',
-      fill: 'black'
+      fill: 'black',
     });
     this.canvas.add(text);
     this.canvas.setActiveObject(text);
+    this.elementTarget = text;
+    text.on('mousedown', (event) => {
+      this.elementTarget = event.target as fabric.IText;
+    });
   }
 
   saveImage() {
+    console.log(this.canvas.toJSON().objects);
     const dataURL = this.canvas.toDataURL({
       format: 'png',
       quality: 1
