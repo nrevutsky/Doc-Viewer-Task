@@ -2,8 +2,15 @@
   <div class="navbar__left">
     <p>Viewer</p>
   </div>
+  <div class="navbar__right">
+    <div class="navbar__right__zoom">
+      <span>{{zoom}}%</span>
+      <button (click)="setZoom(true)">+</button>
+      <button (click)="setZoom(false)">-</button>
+    </div>
+  </div>
 </nav>
 <div class="viewer">
-  <img class="viewer__image" *ngIf="!imageNotFound" src="{{imageSrc}}" alt="image">
+  <canvas class="viewer__canvas" id="canvas"></canvas>
   <h1 *ngIf="imageNotFound">404 Image not found</h1>
 </div>

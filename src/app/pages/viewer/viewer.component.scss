@@ -1,14 +1,25 @@
 .navbar {
   height: 60px;
   width: 100%;
-  font-size: 26px;
   font-weight: bold;
   background: #008989;
   color: white;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   &__left {
+    font-size: 26px;
     margin-left: 20px;
+  }
+  &__right {
+    width: 200px;
+    margin-right: 20px;
+    &__zoom {
+      button {
+        width: 20px;
+        margin-left: 3px;
+      }
+    }
   }
 }
 
@@ -16,9 +27,8 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  &__image {
-    width: 50%;
+  &__canvas {
     margin-top: 10px;
-    max-width: 600px;
+    box-shadow: rgba(0, 0, 0, 0.24) 3px 3px 4px 4px;
   }
 }
