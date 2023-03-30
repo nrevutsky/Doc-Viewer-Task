@@ -18,8 +18,10 @@ export class ViewerComponent implements OnInit {
   public canvas: Canvas;
   public imageId: string = '';
   public imageNotFound: boolean = false;
+  private image: fabric.Image | undefined;
   public zoom: number = 100;
   public elementTarget: fabric.IText | undefined;
+  private isDraggingAvailable: boolean = true;
 
   ngOnInit(): void {
     this.createCanvas();
@@ -36,6 +38,7 @@ export class ViewerComponent implements OnInit {
             height: image.height
           });
         }
+        this.image = image;
         image.selectable = false;
         this.canvas.add(image);
       });
@@ -43,6 +46,47 @@ export class ViewerComponent implements OnInit {
     document.addEventListener('keydown', e => {
       e.key === 'Delete' && this.elementTarget && this.canvas.remove(this.elementTarget);
     })
+
+    let isDragging = false;
+    let lastX: number;
+    let lastY: number;
+
+    this.canvas.on('mouse:down', event => {
+      if (event.target && this.image) {
+        this.isDraggingAvailable = event.target.ownMatrixCache.key === this.image.ownMatrixCache.key;
+      }
+      if (event.e.button === 0) {
+        isDragging = true;
+        lastX = event.e.clientX;
+        lastY = event.e.clientY;
+      }
+    });
+
+    this.canvas.on('mouse:move', (event) => {
+      if (isDragging && this.isDraggingAvailable) {
+        const deltaX = event.e.clientX - lastX;
+        const deltaY = event.e.clientY - lastY;
+        const zoom = this.canvas.getZoom();
+        if (this.canvas && this.canvas.viewportTransform) {
+          this.canvas.setViewportTransform([
+            this.canvas.viewportTransform[0],
+            this.canvas.viewportTransform[1],
+            this.canvas.viewportTransform[2],
+            this.canvas.viewportTransform[3],
+            this.canvas.viewportTransform[4] + deltaX / zoom,
+            this.canvas.viewportTransform[5] + deltaY / zoom
+          ]);
+        }
+        lastX = event.e.clientX;
+        lastY = event.e.clientY;
+      }
+    });
+
+    this.canvas.on('mouse:up', event => {
+      if (event.e.button === 0) {
+        isDragging = false;
+      }
+    });
   }
 
   public setZoom(action: boolean) {
@@ -56,6 +100,7 @@ export class ViewerComponent implements OnInit {
   }
 
   public addText(): void {
+    this.isDraggingAvailable = false;
     const text = new fabric.Textbox('Add your text here', {
       left: 100,
       top: 100,
@@ -68,6 +113,7 @@ export class ViewerComponent implements OnInit {
     this.canvas.setActiveObject(text);
     this.elementTarget = text;
     text.on('mousedown', (event) => {
+      this.isDraggingAvailable = false;
       this.elementTarget = event.target as fabric.IText;
     });
   }
