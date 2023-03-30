@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
 import {Canvas} from "fabric/fabric-impl";
 import {fabric} from "fabric";
 
@@ -12,14 +11,12 @@ import {fabric} from "fabric";
 export class ViewerComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient,
   ) {
-    this.canvas = new fabric.Canvas('canvas', { selection: false })
+    this.canvas = new fabric.Canvas('canvas');
   }
 
   public canvas: Canvas;
   public imageId: string = '';
-  public imageSrc: string = '';
   public imageNotFound: boolean = false;
   public zoom: number = 100;
 
@@ -28,35 +25,19 @@ export class ViewerComponent implements OnInit {
   }
 
   private createCanvas() {
+    this.canvas = new fabric.Canvas('canvas', { selection: false });
     this.route.params.subscribe(params => {
       this.imageId = params['id'];
-      this.http.get(`assets/images/${this.imageId}.png`, { responseType: 'blob' })
-        .subscribe({
-          next: response => {
-            const reader = new FileReader();
-            reader.readAsDataURL(response);
-            reader.onloadend = () => {
-              this.imageSrc = reader.result as string;
-              fabric.Image.fromURL(this.imageSrc, img => {
-                const oImg = img.set({
-                  left: 0,
-                  top: 0,
-                  angle: 0
-                }).scale(1);
-                oImg.setCoords()
-                this.canvas = new fabric.Canvas('canvas', { selection: false })
-                this.canvas.add(oImg).renderAll();
-                if (oImg.width && oImg.height) {
-                  this.canvas.setWidth(oImg.width.toString())
-                  this.canvas.setHeight(oImg.height.toString())
-                }
-              })
-            };
-          },
-          error: () => {
-            this.imageNotFound = true;
-          }
-        })
+      fabric.Image.fromURL(`assets/images/${this.imageId}.png`, image => {
+        if (image.width && image.height) {
+          this.canvas.setDimensions({
+            width: image.width,
+            height: image.height
+          });
+        }
+        image.selectable = false;
+        this.canvas.add(image);
+      });
     });
   }
 
@@ -65,8 +46,37 @@ export class ViewerComponent implements OnInit {
     if (newZoom < 0) {
       return;
     }
+    if (newZoom > 100) {
+
+    }
     this.zoom = action ? this.zoom + 10 : this.zoom - 10;
     const zoom = this.canvas.getZoom();
     this.canvas.setZoom(action ? zoom * 1.1 : zoom / 1.1);
+  }
+
+  addText(): void {
+    const text = new fabric.Textbox('Add your text here', {
+      left: 100,
+      top: 100,
+      width: 200,
+      fontSize: 20,
+      fontFamily: 'Arial',
+      fill: 'black'
+    });
+    this.canvas.add(text);
+    this.canvas.setActiveObject(text);
+  }
+
+  saveImage() {
+    const dataURL = this.canvas.toDataURL({
+      format: 'png',
+      quality: 1
+    });
+    const link = document.createElement('a');
+    link.download = 'edited-image.png';
+    link.href = dataURL;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 }

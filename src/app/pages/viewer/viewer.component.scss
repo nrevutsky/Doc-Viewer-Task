@@ -12,6 +12,8 @@
     margin-left: 20px;
   }
   &__right {
+    display: flex;
+    justify-content: space-between;
     width: 200px;
     margin-right: 20px;
     &__zoom {
