@@ -7,7 +7,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/view/view.module').then(m => m.ViewModule),
   },
   {
-    path: 'view/viewer',
+    path: 'view/viewer/:id',
     loadChildren: () => import('./pages/viewer/viewer.module').then(m => m.ViewerModule),
   },
   {

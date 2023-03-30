@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { ViewerComponent } from './viewer.component';
 import {ViewerRoutingModule} from "./viewer-routing.module";
+import {HttpClientModule} from "@angular/common/http";
 
 
 
@@ -12,6 +13,8 @@ import {ViewerRoutingModule} from "./viewer-routing.module";
   imports: [
     CommonModule,
     ViewerRoutingModule,
+    HttpClientModule,
+    NgOptimizedImage,
   ]
 })
 export class ViewerModule { }
