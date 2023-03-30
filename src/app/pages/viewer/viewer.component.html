@@ -4,6 +4,6 @@
   </div>
 </nav>
 <div class="viewer">
-  <img *ngIf="!imageNotFound" src="{{imageSrc}}" alt="image">
+  <img class="viewer__image" *ngIf="!imageNotFound" src="{{imageSrc}}" alt="image">
   <h1 *ngIf="imageNotFound">404 Image not found</h1>
 </div>
