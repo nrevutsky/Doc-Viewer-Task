@@ -1,5 +1,10 @@
 <nav class="navbar">
   <div class="navbar__left">
-    <p>Doc Viewer App</p>
+    <p>test doc</p>
   </div>
 </nav>
+<div class="documents">
+  <div *ngFor="let file of files">
+    <img class="documents__document" src="{{file.path}}" alt="">
+  </div>
+</div>

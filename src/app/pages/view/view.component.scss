@@ -11,3 +11,12 @@
     margin-left: 20px;
   }
 }
+
+.documents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__document {
+    margin-top: 20px;
+  }
+}
