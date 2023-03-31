@@ -20,7 +20,7 @@ export class ViewerComponent implements OnInit {
   public imageNotFound: boolean = false;
   private image: fabric.Image | undefined;
   public zoom: number = 100;
-  public elementTarget: fabric.IText | undefined;
+  public elementTarget: fabric.IText | fabric.Image | undefined;
   private isDraggingAvailable: boolean = true;
 
   ngOnInit(): void {
@@ -118,7 +118,31 @@ export class ViewerComponent implements OnInit {
     });
   }
 
-  saveImage() {
+  public addImage() {
+    const inputElement = document.createElement('input');
+    inputElement.type = 'file';
+    inputElement.click();
+    inputElement.addEventListener('change', this.onFileSelected.bind(this));
+  }
+
+  private onFileSelected(event: any) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (loadEvent: any) => {
+      const img = new fabric.Image('');
+      img.setSrc(loadEvent.target.result, () => {
+        this.elementTarget = img;
+        this.canvas.add(img);
+        img.on('mousedown', (event) => {
+          this.isDraggingAvailable = false;
+          this.elementTarget = event.target as fabric.IText;
+        });
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+
+  public saveImage() {
     console.log(this.canvas.toJSON().objects);
     const dataURL = this.canvas.toDataURL({
       format: 'png',
