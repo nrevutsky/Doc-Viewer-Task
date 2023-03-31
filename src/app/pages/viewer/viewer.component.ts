@@ -120,6 +120,7 @@ export class ViewerComponent implements OnInit {
 
   public addImage() {
     const inputElement = document.createElement('input');
+    inputElement.accept = 'image/png, image/jpeg';
     inputElement.type = 'file';
     inputElement.click();
     inputElement.addEventListener(
