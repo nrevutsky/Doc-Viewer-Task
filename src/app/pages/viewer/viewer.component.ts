@@ -122,22 +122,29 @@ export class ViewerComponent implements OnInit {
     const inputElement = document.createElement('input');
     inputElement.type = 'file';
     inputElement.click();
-    inputElement.addEventListener('change', this.onFileSelected.bind(this));
+    inputElement.addEventListener(
+      'change',
+      this.onFileSelected.bind(this) as (this: ViewerComponent, ev: Event) => void)
+    ;
   }
 
-  private onFileSelected(event: any) {
-    const file = event.target.files[0];
+  private onFileSelected(event: Event & { target: { files: FileList } }) {
+    const file = event.target && event.target.files[0];
     const reader = new FileReader();
-    reader.onload = (loadEvent: any) => {
+    reader.onload = (loadEvent) => {
       const img = new fabric.Image('');
-      img.setSrc(loadEvent.target.result, () => {
-        this.elementTarget = img;
-        this.canvas.add(img);
-        img.on('mousedown', (event) => {
-          this.isDraggingAvailable = false;
-          this.elementTarget = event.target as fabric.IText;
-        });
-      });
+      if (loadEvent.target) {
+        if (typeof loadEvent.target.result === "string") {
+          img.setSrc(loadEvent.target.result, () => {
+            this.elementTarget = img;
+            this.canvas.add(img);
+            img.on('mousedown', (event) => {
+              this.isDraggingAvailable = false;
+              this.elementTarget = event.target as fabric.IText;
+            });
+          });
+        }
+      }
     };
     reader.readAsDataURL(file);
   }
