@@ -1,22 +1,32 @@
 [
   {
     "id": 1,
-    "path": "assets/images/1.png"
+    "path": "assets/images/1.png",
+    "width": 794,
+    "height": 1123
   },
   {
     "id": 2,
-    "path": "assets/images/2.png"
+    "path": "assets/images/2.png",
+    "width": 794,
+    "height": 1123
   },
   {
     "id": 3,
-    "path": "assets/images/3.png"
+    "path": "assets/images/3.png",
+    "width": 794,
+    "height": 1123
   },
   {
     "id": 4,
-    "path": "assets/images/4.png"
+    "path": "assets/images/4.png",
+    "width": 794,
+    "height": 1123
   },
   {
     "id": 5,
-    "path": "assets/images/5.png"
+    "path": "assets/images/5.png",
+    "width": 794,
+    "height": 1123
   }
 ]

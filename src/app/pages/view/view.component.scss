@@ -1,14 +1,28 @@
 .navbar {
   height: 60px;
   width: 100%;
-  font-size: 26px;
   font-weight: bold;
   background: #008989;
   color: white;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  position: fixed;
   &__left {
+    font-size: 26px;
     margin-left: 20px;
+  }
+  &__right {
+    width: 90px;
+    margin-right: 20px;
+    &__zoom {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      button {
+        width: 20px;
+      }
+    }
   }
 }
 
@@ -16,6 +30,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  &__document:first-child {
+    margin-top: 80px;
+  }
   &__document {
     margin-top: 20px;
   }

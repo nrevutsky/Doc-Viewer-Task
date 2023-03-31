@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import documents from '../../../documents/documents.json';
 
-interface ImageFile {
+interface Document {
   id: number;
   path: string;
+  width: number;
+  height: number;
 }
 
 @Component({
@@ -12,15 +14,20 @@ interface ImageFile {
   styleUrls: ['./view.component.scss']
 })
 export class ViewComponent implements OnInit {
-  public files: ImageFile[] = [];
+  public documents: Document[] = [];
   private offset: number = 0;
   private limit: number = 1;
+  public zoom: number = 1;
 
   ngOnInit(): void {
-    this.files = [...this.files, ...documents.slice(this.offset, this.offset + this.limit)]
+    this.loadDocuments();
+  }
+
+  private loadDocuments() {
+    this.documents = [...this.documents, ...documents.slice(this.offset, this.offset + this.limit)]
     this.offset++
     const loadDocument = () => {
-      this.files = [...this.files, ...documents.slice(this.offset, this.offset + this.limit)]
+      this.documents = [...this.documents, ...documents.slice(this.offset, this.offset + this.limit)]
       this.offset++
     }
     window.addEventListener('scroll', function() {
@@ -28,5 +35,20 @@ export class ViewComponent implements OnInit {
         loadDocument();
       }
     });
+  }
+
+  public increaseSize() {
+    if (this.zoom > 1.5) {
+      return;
+    }
+    this.zoom += 0.1;
+  }
+
+  public decreaseSize() {
+    if (this.zoom < 0.2) {
+      return;
+    }
+    window.scrollTo(window.scrollX, window.scrollY + 1);
+    this.zoom -= 0.1;
   }
 }

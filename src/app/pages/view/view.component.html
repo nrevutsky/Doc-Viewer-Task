@@ -2,9 +2,22 @@
   <div class="navbar__left">
     <p>test doc</p>
   </div>
+  <div class="navbar__right">
+    <div class="navbar__right__zoom">
+      <span>{{(zoom * 100).toFixed()}}%</span>
+      <button (click)="increaseSize()">+</button>
+      <button (click)="decreaseSize()">-</button>
+    </div>
+  </div>
 </nav>
 <div class="documents">
-  <div *ngFor="let file of files">
-    <img class="documents__document" src="{{file.path}}" alt="">
-  </div>
+  <img
+    *ngFor="let document of documents"
+    [src]="document.path"
+    [style.width.px]="document.width * zoom"
+    [style.height.px]="document.height * zoom"
+    [style.transform-origin]="'top'"
+    [style.transition]="'width 0.5s ease, height 0.5s ease'"
+    class="documents__document"
+  />
 </div>
