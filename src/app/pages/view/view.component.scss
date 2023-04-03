@@ -8,6 +8,7 @@
   align-items: center;
   justify-content: space-between;
   position: fixed;
+  z-index: 2;
   &__left {
     font-size: 26px;
     margin-left: 20px;
@@ -45,6 +46,7 @@
       align-items: center;
       position: absolute;
       border-radius: 1px 10px 10px 10px;
+      z-index: 1;
       span {
         cursor: pointer;
       }
