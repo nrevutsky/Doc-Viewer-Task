@@ -51,8 +51,8 @@
       <div
         class="documents__document__annotation"
         *ngFor="let annotation of annotations"
-        [style.left.px]="annotation.x"
-        [style.top.px]="annotation.y"
+        [style.left.px]="annotation.x * zoom"
+        [style.top.px]="annotation.y * zoom"
         [style.font-size.px]="26 * zoom"
         [style.transition.ms]="'500'"
       >
