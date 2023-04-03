@@ -30,11 +30,17 @@ export class ViewComponent implements OnInit {
   }
 
   private loadDocuments() {
-    this.documents = [...this.documents, ...documents.slice(this.offset, this.offset + this.limit)]
-    this.offset++
+    this.documents = [
+      ...this.documents,
+      ...documents.slice(this.offset, this.offset + this.limit)
+    ];
+    this.offset++;
     const loadDocument = () => {
-      this.documents = [...this.documents, ...documents.slice(this.offset, this.offset + this.limit)]
-      this.offset++
+      this.documents = [
+        ...this.documents,
+        ...documents.slice(this.offset, this.offset + this.limit)
+      ];
+      this.offset++;
     }
     window.addEventListener('scroll', function() {
       if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
@@ -60,7 +66,12 @@ export class ViewComponent implements OnInit {
 
   public reset() {
     if (this.text) {
-      this.annotations.push({ x: this.contextMenuPosition.x, y: this.contextMenuPosition.y, text: this.text, documentId: this.activeDocument.id });
+      this.annotations.push({
+        x: this.contextMenuPosition.x,
+        y: this.contextMenuPosition.y,
+        text: this.text, documentId:
+        this.activeDocument.id
+      });
       this.text = '';
     }
 
@@ -75,7 +86,11 @@ export class ViewComponent implements OnInit {
 
     this.isContextMenuOpen = true;
     this.showTextArea = false;
-    this.contextMenuPosition = { x: event.offsetX, y: event.offsetY, documentId: this.activeDocument.id };
+    this.contextMenuPosition = {
+      x: event.offsetX,
+      y: event.offsetY,
+      documentId: this.activeDocument.id
+    };
   }
 
   public addText() {
