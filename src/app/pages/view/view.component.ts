@@ -59,7 +59,7 @@ export class ViewComponent implements OnInit {
     event.stopPropagation();
 
     this.isContextMenuOpen = true;
-    this.contextMenuPosition = { x: event.clientX, y: event.clientY };
+    this.contextMenuPosition = { x: event.clientX, y: event.clientY + window.pageYOffset };
   }
 
   public addText() {
