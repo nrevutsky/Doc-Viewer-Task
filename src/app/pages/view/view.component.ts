@@ -19,7 +19,7 @@ export class ViewComponent implements OnInit {
   private limit: number = 1;
   public zoom: number = 1;
   public isContextMenuOpen: boolean = false;
-  public contextMenuPosition: { x: number, y: number } = { x: 0, y: 0 };
+  public contextMenuPosition: { x: number, y: number, documentId: number } = { x: 0, y: 0, documentId: 1 };
   public showTextArea: boolean = false;
   public text: string = '';
   public activeDocument!: Document;
@@ -68,17 +68,17 @@ export class ViewComponent implements OnInit {
     this.showTextArea = false;
   }
 
-  public onContextMenu(event: MouseEvent) {
+  public onContextMenu(event: MouseEvent, document: Document) {
+    this.activeDocument = document;
     event.preventDefault();
     event.stopPropagation();
 
     this.isContextMenuOpen = true;
     this.showTextArea = false;
-    this.contextMenuPosition = { x: event.offsetX, y: event.offsetY };
+    this.contextMenuPosition = { x: event.offsetX, y: event.offsetY, documentId: this.activeDocument.id };
   }
 
-  public addText(document: Document) {
-    this.activeDocument = document;
+  public addText() {
     this.isContextMenuOpen = false;
     this.showTextArea = true;
   }

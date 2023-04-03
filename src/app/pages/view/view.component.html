@@ -23,28 +23,30 @@
       [style.width]="'100%'"
       [style.height]="'100%'"
       [style.transition]="'width 0.5s ease, height 0.5s ease'"
-      (contextmenu)="onContextMenu($event)"
+      (contextmenu)="onContextMenu($event, document)"
       (click)="reset()"
       id="{{document.id}}"
       alt="document"/>
     <div
-      *ngIf="isContextMenuOpen"
+      *ngIf="isContextMenuOpen && contextMenuPosition.documentId === document.id"
       [style.left.px]="contextMenuPosition.x"
       [style.top.px]="contextMenuPosition.y"
       class="documents__document__menu"
     >
-      <span (click)="addText(document)">Add Text</span>
+      <span (click)="addText()">Add Text</span>
       <span (click)="addPicture()">Add Picture</span>
     </div>
     <div
-      *ngIf="showTextArea"
-      [style.left.px]="contextMenuPosition.x"
-      [style.top.px]="contextMenuPosition.y"
+      *ngIf="showTextArea && activeDocument.id === document.id"
+      [style.left.px]="contextMenuPosition.x * zoom"
+      [style.top.px]="contextMenuPosition.y * zoom"
       class="documents__document__text-area"
     >
       <input
         type="text"
         [(ngModel)]="text"
+        [style.height]="26 * zoom"
+        [style.font-size.px]="26 * zoom"
       >
     </div>
     <div>
