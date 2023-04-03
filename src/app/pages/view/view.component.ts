@@ -18,6 +18,8 @@ export class ViewComponent implements OnInit {
   private offset: number = 0;
   private limit: number = 1;
   public zoom: number = 1;
+  public isContextMenuOpen: boolean = false;
+  public contextMenuPosition: { x: number, y: number } = { x: 0, y: 0 };
 
   ngOnInit(): void {
     this.loadDocuments();
@@ -50,5 +52,21 @@ export class ViewComponent implements OnInit {
     }
     window.scrollTo(window.scrollX, window.scrollY + 1);
     this.zoom -= 0.1;
+  }
+
+  public onContextMenu(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.isContextMenuOpen = true;
+    this.contextMenuPosition = { x: event.clientX, y: event.clientY };
+  }
+
+  public addText() {
+    this.isContextMenuOpen = false;
+  }
+
+  public addPicture() {
+    this.isContextMenuOpen = false;
   }
 }

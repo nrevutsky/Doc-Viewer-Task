@@ -35,5 +35,19 @@
   }
   &__document {
     margin-top: 20px;
+    &__menu {
+      width: 170px;
+      height: 50px;
+      background: #008989;
+      color: white;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      position: absolute;
+      border-radius: 4px;
+      span {
+        cursor: pointer;
+      }
+    }
   }
 }
