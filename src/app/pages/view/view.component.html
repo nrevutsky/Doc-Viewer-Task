@@ -11,24 +11,51 @@
   </div>
 </nav>
 <div class="documents">
-  <img
+  <div
     *ngFor="let document of documents"
-    [src]="document.path"
     [style.width.px]="document.width * zoom"
     [style.height.px]="document.height * zoom"
-    [style.transform-origin]="'top'"
     [style.transition]="'width 0.5s ease, height 0.5s ease'"
-    (contextmenu)="onContextMenu($event)"
-    (click)="isContextMenuOpen = false"
     class="documents__document"
-  />
-  <div
-    *ngIf="isContextMenuOpen"
-    [style.left.px]="contextMenuPosition.x"
-    [style.top.px]="contextMenuPosition.y"
-    class="documents__document__menu"
   >
-    <span (click)="addText()">Add Text</span>
-    <span (click)="addPicture()">Add Picture</span>
+    <img
+      [src]="document.path"
+      [style.width]="'100%'"
+      [style.height]="'100%'"
+      [style.transition]="'width 0.5s ease, height 0.5s ease'"
+      (contextmenu)="onContextMenu($event)"
+      (click)="reset()"
+      id="{{document.id}}"
+      alt="document"/>
+    <div
+      *ngIf="isContextMenuOpen"
+      [style.left.px]="contextMenuPosition.x"
+      [style.top.px]="contextMenuPosition.y"
+      class="documents__document__menu"
+    >
+      <span (click)="addText(document)">Add Text</span>
+      <span (click)="addPicture()">Add Picture</span>
+    </div>
+    <div
+      *ngIf="showTextArea"
+      [style.left.px]="contextMenuPosition.x"
+      [style.top.px]="contextMenuPosition.y"
+      class="documents__document__text-area"
+    >
+      <input
+        type="text"
+        [(ngModel)]="text"
+      >
+    </div>
+    <div>
+      <div
+        class="documents__document__annotation"
+        *ngFor="let annotation of annotations"
+        [style.left.px]="annotation.x"
+        [style.top.px]="annotation.y"
+      >
+        {{ annotation.documentId === document.id ? annotation.text : '' }}
+      </div>
+    </div>
   </div>
 </div>

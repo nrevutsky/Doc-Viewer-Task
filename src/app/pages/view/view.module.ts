@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ViewComponent } from './view.component';
 import { ViewRoutingModule } from "./view-routing.module";
+import { FormsModule } from "@angular/forms";
 
 
 
@@ -12,6 +13,7 @@ import { ViewRoutingModule } from "./view-routing.module";
   imports: [
     CommonModule,
     ViewRoutingModule,
+    FormsModule,
   ]
 })
 export class ViewModule { }

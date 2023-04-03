@@ -51,5 +51,18 @@
         cursor: pointer;
       }
     }
+    &__text-area {
+      position: absolute;
+      input {
+        height: 26px;
+        font-size: 26px;
+        background: none;
+        border: 1px solid black;
+      }
+    }
+    &__annotation {
+      position: absolute;
+      font-size: 26px;
+    }
   }
 }
