@@ -23,7 +23,7 @@ export class ViewComponent implements OnInit {
   public showTextArea: boolean = false;
   public text: string = '';
   public activeDocument!: Document;
-  public annotations: { x: number, y: number, text: string, documentId: number }[] = [{ x: 300, y: 300, text: 'TEST ABSOLUTE', documentId: 1 }];
+  public annotations: { x: number, y: number, text: string, documentId: number }[] = [];
 
   ngOnInit(): void {
     this.loadDocuments();
