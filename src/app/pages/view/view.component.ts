@@ -23,7 +23,7 @@ export class ViewComponent implements OnInit {
   public showTextArea: boolean = false;
   public text: string = '';
   public activeDocument!: Document;
-  public annotations: { x: number, y: number, text: string, documentId: number }[] = [];
+  public annotations: { x: number, y: number, text: string, documentId: number }[] = [{ x: 300, y: 300, text: 'TEST ABSOLUTE', documentId: 1 }];
 
   ngOnInit(): void {
     this.loadDocuments();
@@ -59,11 +59,8 @@ export class ViewComponent implements OnInit {
   }
 
   public reset() {
-    const x = this.contextMenuPosition.x;
-    const y = this.contextMenuPosition.y;
-
     if (this.text) {
-      this.annotations.push({ x, y, text: this.text, documentId: this.activeDocument.id });
+      this.annotations.push({ x: this.contextMenuPosition.x, y: this.contextMenuPosition.y, text: this.text, documentId: this.activeDocument.id });
       this.text = '';
     }
 
@@ -77,7 +74,7 @@ export class ViewComponent implements OnInit {
 
     this.isContextMenuOpen = true;
     this.showTextArea = false;
-    this.contextMenuPosition = { x: event.clientX, y: event.clientY + window.pageYOffset };
+    this.contextMenuPosition = { x: event.offsetX, y: event.offsetY };
   }
 
   public addText(document: Document) {

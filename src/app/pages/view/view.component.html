@@ -53,6 +53,8 @@
         *ngFor="let annotation of annotations"
         [style.left.px]="annotation.x"
         [style.top.px]="annotation.y"
+        [style.font-size.px]="26 * zoom"
+        [style.transition.ms]="'500'"
       >
         {{ annotation.documentId === document.id ? annotation.text : '' }}
       </div>
